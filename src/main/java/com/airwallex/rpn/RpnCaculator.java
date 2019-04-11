@@ -1,15 +1,18 @@
 package com.airwallex.rpn;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class RpnCaculator {
     public static void main(String[] args) {
         System.out.println("Please input the list and press Enter:");
-        System.out.println("The calculator expects to receive strings containing whitespace separated lists of numbers and operators.");
+        System.out.println("(The calculator expects to receive strings containing whitespace separated lists of numbers and operators.)");
         Scanner sc = new Scanner(System.in);
         RpnCaculator calc = new RpnCaculator();
         Stack<String> stack = new Stack<>();
@@ -69,7 +72,7 @@ public class RpnCaculator {
                         factor = Double.valueOf(stack.pop());
                     } else {
                         pos++;
-                        System.out.println("operator <operator> (position: <" + pos + ">): insufficient parameters");
+                        log.warn("operator <operator> (position: <" + pos + ">): insufficient parameters");
                         break;
                     }
                     pos++;
@@ -89,7 +92,7 @@ public class RpnCaculator {
                     a = Double.valueOf(stack.pop());
                 } else {
                     pos++;
-                    System.out.println("operator <operator> (position: <" + pos + ">): insufficient parameters");
+                    log.warn("operator <operator> (position: <" + pos + ">): insufficient parameters");
                     break;
                 }
                 Double b;
@@ -98,7 +101,7 @@ public class RpnCaculator {
                     b = Double.valueOf(stack.pop());
                 } else {
                     pos++;
-                    System.out.println("operator " + t + " (position: <" + pos + ">): insufficient parameters");
+                    log.warn("operator <operator> (position: <" + pos + ">): insufficient parameters");
                     break;
                 }
                 switch (t) {
@@ -121,7 +124,7 @@ public class RpnCaculator {
                         if (a != 0)
                             stack.push(String.valueOf(b / a));
                         else {
-                            System.out.println("Denominator is zero!");
+                            log.error("Denominator is zero!");
                             break;
                         }
                         pos++;
